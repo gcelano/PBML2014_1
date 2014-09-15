@@ -2,6 +2,7 @@
 {
 (: this for clause is a technical expedient to put the words in the right order :)
 for $r in
+
     (: captures PRED and PRED_CO because only main clauses receive the function PRED :)
     for $s in //word[@relation= ("PRED", "PRED_CO")]
     
@@ -40,4 +41,4 @@ for $r in
     }
     </sentence>
 }
-</treebank>  
+</treebank>
