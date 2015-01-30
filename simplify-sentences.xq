@@ -1,4 +1,4 @@
-(: This is the initial query used to simplify sentences; an improved version follows it :)
+(: The following code has been written by Giuseppe G. a. Celano. This is the initial query used to simplify sentences; an improved version follows it :)
 
 <treebank>
 {
@@ -48,9 +48,9 @@ for $r in
 
 
 
-(: this is the final version used to simplify sentences :)
+(: The following query has been written by Giuseppe G. A. Celano. This is the final version used to simplify sentences :)
 
-(: mod: additional functions needed to make the result set distinct:)
+(: the function functx:is-node-in-sequence has been added by Maria Moriz :)
 declare namespace functx = "http://www.functx.com";
 declare function functx:is-node-in-sequence
   ( $node as node()? ,
@@ -79,7 +79,7 @@ for $y in (: this for clause is a technical expedient to put the words in the ri
     let $u := $s/parent::sentence/word[@head = $s/@id][@relation="COORD"] 
     
     (: looks for non-verb and non-participle dependents of a verb which are coordinated, so we can, for example, capture "L." and "B." in "I love L. and B."  :)
-    (: mod: SBJ_CO of a COORD of a PRED_CO was added (s28) :)
+    (: mod: SBJ_CO of a COORD of a PRED_CO was added (s28); suggested by Barbara Pavlek :)
     let $i := $s/parent::sentence/word[@head = $u/@id][(@relation="OBJ_CO" or @relation="ADV_CO" or @relation="SBJ_CO") and not(@postag[matches(., "t........")]) and not(@postag[matches(., "v........")])]     
     
     (: looks for prepositions, so we can, for example, capture "in" in "I live in Leipzig":)
@@ -110,7 +110,7 @@ for $y in (: this for clause is a technical expedient to put the words in the ri
    
     <sentence document_id="{$y/@document_id}" id="{$y/@id}" subdoc="{$y/@subdoc}">
     {
-    (: mod: return distinct nodes and the sentence length next to :)
+    (: the function functx:distinct-nodes() has been added by Maria Moriz :)
     for $x in functx:distinct-nodes($y/word)
         order by $x/@cid
         return $x, count($y/word)
